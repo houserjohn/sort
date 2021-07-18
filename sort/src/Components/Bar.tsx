@@ -1,11 +1,8 @@
 import React from 'react'
 import styled from "styled-components";
 
-interface BAR_Props {
-  tile_color: string;
-}
 
-const BAR = styled.p`
+const BAR = styled.div`
   margin: 5px;
   border: 0px solid black;
   padding: 0px;
