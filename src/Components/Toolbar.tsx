@@ -27,7 +27,7 @@ const create_new_array = (size: number) => {
 
   store.dispatch({
     type: "sort/set_array",
-    payload: {"array": array, "colors": colors}
+    payload: { array: array, colors: colors },
   });
 };
 
@@ -44,53 +44,49 @@ const update_sorting_algorithm = (e: any) => {
   });
 };
 
-
 const start_sorting = () => {
   let array: any = copy_array(store.getState().array);
 
   let sorting_algorithm: string = store.getState().sorting_algorithm;
-  switch(sorting_algorithm) {
+  switch (sorting_algorithm) {
     case "insertion_sort":
       insertion_sort(array);
       break;
-    case "bubble_sort": 
+    case "bubble_sort":
       bubble_sort(array);
       break;
     case "selection_sort":
       selection_sort(array);
       break;
   }
-
-
-}
+};
 
 // Handles the Randomize button being clicked
 const onClickRandomize = (e: any, length: number) => {
   e.preventDefault();
 
-  create_new_array(length)
-}
+  create_new_array(length);
+};
 
 // Handles the Go button being clicked
 const onClickGo = (e: any) => {
   e.preventDefault();
 
   start_sorting();
-}
+};
 
 // Handles the speed range being adjusted
 const onSpeedAdjust = (e: any) => {
   e.preventDefault();
 
-  let adjusted_speed: number = 2000-e.target.value // update it so that the max value is stored in the store
+  let adjusted_speed: number = 2000 - e.target.value; // update it so that the max value is stored in the store
 
   store.dispatch({
     type: "sort/set_speed",
     payload: adjusted_speed,
   });
   console.log(adjusted_speed);
-
-}
+};
 
 interface REDUX_STORE {
   array: number[];
@@ -107,10 +103,8 @@ const DESCRIPTOR = styled.p`
   padding: 0px;
 `;
 
-  //direction: rtl;dd
-const SPEED_BAR = styled.input`
-  
-`;
+//direction: rtl;dd
+const SPEED_BAR = styled.input``;
 //<input type="range" min="10" max="2000" step="1" onMouseUp={(e: any) => onSpeedAdjust(e)} />
 
 const Toolbar = () => {
@@ -122,7 +116,11 @@ const Toolbar = () => {
         Randomize
       </button>
       <DESCRIPTOR>Few</DESCRIPTOR>
-      <input type="range" onMouseUp={(e: any) => update_array_length(e)} />
+      <input
+        type="range"
+        defaultValue={array.length}
+        onMouseUp={(e: any) => update_array_length(e)}
+      />
       <DESCRIPTOR>Many</DESCRIPTOR>
       <select
         defaultValue="insertion sort"
@@ -134,11 +132,16 @@ const Toolbar = () => {
         <option value=".">more coming soon...</option>
       </select>
       <DESCRIPTOR>Slow</DESCRIPTOR>
-      <SPEED_BAR type="range" min="10" max="2000" step="1" onMouseUp={(e: any) => onSpeedAdjust(e)}/>
+      <SPEED_BAR
+        type="range"
+        min="10"
+        max="2000"
+        step="1"
+        defaultValue={store.getState().speed}
+        onMouseUp={(e: any) => onSpeedAdjust(e)}
+      />
       <DESCRIPTOR>Fast</DESCRIPTOR>
-      <button onClick={(e: any) => onClickGo(e)}>
-        go
-      </button>
+      <button onClick={(e: any) => onClickGo(e)}>go</button>
     </TOOLBAR>
   );
 };
