@@ -6,6 +6,7 @@ import store from "../store";
 import insertion_sort from "../SortingAlgorithms/InsertionSort";
 import bubble_sort from "../SortingAlgorithms/BubbleSort";
 import selection_sort from "../SortingAlgorithms/SelectionSort";
+import quick_sort from "../SortingAlgorithms/QuickSort";
 import { copy_array } from "../SharedFunctions";
 
 // Gets random interval in range [min, max)
@@ -57,6 +58,9 @@ const start_sorting = () => {
       break;
     case "selection_sort":
       selection_sort(array);
+      break;
+    case "quick_sort":
+      quick_sort(array);
       break;
   }
 };
@@ -129,7 +133,7 @@ const Toolbar = () => {
         <option value="insertion_sort">Insertion Sort</option>
         <option value="bubble_sort">Bubble Sort</option>
         <option value="selection_sort">Selection Sort</option>
-        <option value=".">more coming soon...</option>
+        <option value="quick_sort">Quick Sort</option>
       </select>
       <DESCRIPTOR>Slow</DESCRIPTOR>
       <SPEED_BAR
