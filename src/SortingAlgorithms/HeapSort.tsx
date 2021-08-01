@@ -4,7 +4,6 @@ import store from "../store";
 
 import {
   swap,
-  copy_array,
   animate_color_and_array,
   animate_color_and_array_finished,
 } from "../SharedFunctions";
@@ -13,15 +12,15 @@ let default_colors: string[];
 
 // O(nlogn) T | O(1) S
 const heap_sort = async (array: number[]) => {
-  default_colors = copy_array(store.getState().colors);
+  default_colors = store.getState().colors.slice();
 
   await buildHeap(array);
 
   for (let divide = array.length - 1; divide >= 1; divide--) {
     /* animation of the bars start */
     await animate_color_and_array(
-      copy_array(default_colors),
-      copy_array(array),
+      default_colors.slice(),
+      array.slice(),
       0,
       divide
     );
@@ -29,8 +28,8 @@ const heap_sort = async (array: number[]) => {
     swap(array, 0, divide);
     /* animation of the bars start */
     await animate_color_and_array(
-      copy_array(default_colors),
-      copy_array(array),
+      default_colors.slice(),
+      array.slice(),
       0,
       divide
     );
@@ -39,10 +38,7 @@ const heap_sort = async (array: number[]) => {
     await siftdown(array, divide, 0);
   }
   /* animation finished start */
-  animate_color_and_array_finished(
-    copy_array(default_colors),
-    copy_array(array)
-  );
+  animate_color_and_array_finished(default_colors.slice(), array.slice());
   /* animation finished end */
 
   return array;
@@ -56,8 +52,8 @@ const siftdown = async (array: number[], length: number, index: number) => {
   while (left < length && array[index] < array[bggr]) {
     /* animation of the bars start */
     await animate_color_and_array(
-      copy_array(default_colors),
-      copy_array(array),
+      default_colors.slice(),
+      array.slice(),
       index,
       bggr
     );
@@ -65,8 +61,8 @@ const siftdown = async (array: number[], length: number, index: number) => {
     swap(array, index, bggr);
     /* animation of the bars start */
     await animate_color_and_array(
-      copy_array(default_colors),
-      copy_array(array),
+      default_colors.slice(),
+      array.slice(),
       index,
       bggr
     );

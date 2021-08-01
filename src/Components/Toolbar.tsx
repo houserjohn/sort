@@ -10,7 +10,7 @@ import selection_sort from "../SortingAlgorithms/SelectionSort";
 import quick_sort from "../SortingAlgorithms/QuickSort";
 import heap_sort from "../SortingAlgorithms/HeapSort";
 import radix_sort from "../SortingAlgorithms/RadixSort";
-import { copy_array } from "../SharedFunctions";
+import merge_sort from "../SortingAlgorithms/MergeSort";
 
 // Gets random interval in range [min, max)
 // From https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
@@ -49,7 +49,7 @@ const update_sorting_algorithm = (e: any) => {
 };
 
 const start_sorting = () => {
-  let array: any = copy_array(store.getState().array);
+  let array: number[] = store.getState().array.slice();
 
   let sorting_algorithm: string = store.getState().sorting_algorithm;
   switch (sorting_algorithm) {
@@ -70,6 +70,9 @@ const start_sorting = () => {
       break;
     case "radix_sort":
       radix_sort(array);
+      break;
+    case "merge_sort":
+      merge_sort(array);
       break;
   }
 };
@@ -145,6 +148,7 @@ const Toolbar = () => {
         <option value="quick_sort">Quick Sort</option>
         <option value="heap_sort">Heap Sort</option>
         <option value="radix_sort">Radix Sort</option>
+        <option value="merge_sort">Merge Sort</option>
       </select>
       <DESCRIPTOR>Slow</DESCRIPTOR>
       <SPEED_BAR

@@ -7,7 +7,6 @@ import store from "../store";
 
 import {
   swap,
-  copy_array,
   animate_color_and_array,
   animate_color_and_array_finished,
 } from "../SharedFunctions";
@@ -15,15 +14,12 @@ import {
 let default_colors: string[];
 
 const quick_sort = async (array: number[]) => {
-  default_colors = copy_array(store.getState().colors);
+  default_colors = store.getState().colors.slice();
 
   await quickSortHelper(array, 0, array.length - 1);
 
   /* animation finished start */
-  animate_color_and_array_finished(
-    copy_array(default_colors),
-    copy_array(array)
-  );
+  animate_color_and_array_finished(default_colors.slice(), array.slice());
   /* animation finished end */
 
   return array;
@@ -37,8 +33,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
   while (lft <= rght) {
     /* animation of the bars start */
     await animate_color_and_array(
-      copy_array(default_colors),
-      copy_array(array),
+      default_colors.slice(),
+      array.slice(),
       lft,
       rght
     );
@@ -48,8 +44,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
       // only display animation if the bars were actually swapped
       /* animation of the bars start */
       await animate_color_and_array(
-        copy_array(default_colors),
-        copy_array(array),
+        default_colors.slice(),
+        array.slice(),
         lft,
         rght
       );
@@ -60,8 +56,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
   }
   /* animation of the bars start */
   await animate_color_and_array(
-    copy_array(default_colors),
-    copy_array(array),
+    default_colors.slice(),
+    array.slice(),
     pivot,
     rght
   );
@@ -69,8 +65,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
   swap(array, pivot, rght);
   /* animation of the bars start */
   await animate_color_and_array(
-    copy_array(default_colors),
-    copy_array(array),
+    default_colors.slice(),
+    array.slice(),
     pivot,
     rght
   );

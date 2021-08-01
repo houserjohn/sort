@@ -1,14 +1,6 @@
 // A collection of commonly used functions that can be reused across modules
 import store from "./store";
 
-const copy_array = (array: any): any => {
-  let arr: any = [];
-  for (let i = 0; i < array.length; i++) {
-    arr.push(array[i]);
-  }
-  return arr;
-};
-
 const swap = (array: number[], i: number, j: number) => {
   let temp: number = array[i];
   array[i] = array[j];
@@ -44,9 +36,4 @@ const animate_color_and_array_finished = async (
   });
 };
 
-export {
-  copy_array,
-  swap,
-  animate_color_and_array,
-  animate_color_and_array_finished,
-};
+export { swap, animate_color_and_array, animate_color_and_array_finished };

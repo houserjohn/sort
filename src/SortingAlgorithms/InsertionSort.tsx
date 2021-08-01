@@ -5,20 +5,19 @@ import store from "../store";
 
 import {
   swap,
-  copy_array,
   animate_color_and_array,
   animate_color_and_array_finished,
 } from "../SharedFunctions";
 
 // put in project something about using asynchronous calls/synchronize
 const insertion_sort = async (array: number[]) => {
-  let default_colors: string[] = copy_array(store.getState().colors);
+  let default_colors: string[] = store.getState().colors.slice();
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = i + 1; j > 0; j--) {
       /* animation of the bars start */
       await animate_color_and_array(
-        copy_array(default_colors),
-        copy_array(array),
+        default_colors.slice(),
+        array.slice(),
         j - 1,
         j
       );
@@ -30,8 +29,8 @@ const insertion_sort = async (array: number[]) => {
         // only animate the swap if the first bar is bigger than the second (a swap occurred)
         /* animation of the bars start */
         await animate_color_and_array(
-          copy_array(default_colors),
-          copy_array(array),
+          default_colors.slice(),
+          array.slice(),
           j - 1,
           j
         );
@@ -41,10 +40,7 @@ const insertion_sort = async (array: number[]) => {
   }
 
   /* animation finished start */
-  animate_color_and_array_finished(
-    copy_array(default_colors),
-    copy_array(array)
-  );
+  animate_color_and_array_finished(default_colors.slice(), array.slice());
   /* animation finished end */
 
   return array;

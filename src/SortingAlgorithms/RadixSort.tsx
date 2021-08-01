@@ -7,14 +7,12 @@
 import store from "../store";
 
 import {
-  swap,
-  copy_array,
   animate_color_and_array,
   animate_color_and_array_finished,
 } from "../SharedFunctions";
 
 const radix_sort = async (array: number[]) => {
-  let default_colors: string[] = copy_array(store.getState().colors);
+  let default_colors: string[] = store.getState().colors.slice();
 
   if (array.length === 0) return array;
   let mxDigits = countDigits(Math.max(...array));
@@ -32,8 +30,8 @@ const radix_sort = async (array: number[]) => {
     for (let i = 0; i < array.length; i++) {
       /* animation of the bars start */
       await animate_color_and_array(
-        copy_array(default_colors),
-        copy_array(array),
+        default_colors.slice(),
+        array.slice(),
         i,
         i
       );
@@ -41,8 +39,8 @@ const radix_sort = async (array: number[]) => {
       array[i] = sorted[i];
       /* animation of the bars start */
       await animate_color_and_array(
-        copy_array(default_colors),
-        copy_array(array),
+        default_colors.slice(),
+        array.slice(),
         i,
         i
       );
@@ -51,10 +49,7 @@ const radix_sort = async (array: number[]) => {
   }
 
   /* animation finished start */
-  animate_color_and_array_finished(
-    copy_array(default_colors),
-    copy_array(array)
-  );
+  animate_color_and_array_finished(default_colors.slice(), array.slice());
   /* animation finished end */
 
   return array;
