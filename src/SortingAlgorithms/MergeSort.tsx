@@ -7,11 +7,13 @@ import {
 } from "../SharedFunctions";
 
 let default_colors: string[];
+let global_array: number[];
 
 const merge_sort = async (array: number[]) => {
   if (array.length === 0) return array;
 
   default_colors = store.getState().colors.slice();
+  global_array = array.slice(0);
 
   let auxiliary: number[] = array.slice();
   await mergeSortHelper(array, 0, array.length - 1, auxiliary);
@@ -47,20 +49,84 @@ const doMerge = async (
   for (; i <= middle && j <= end; k++) {
     if (auxiliary[i] <= auxiliary[j]) {
       /* animation of the bars start */
-      await animate_color_and_array(default_colors.slice(), main.slice(), k, i);
+      await animate_color_and_array(
+        default_colors.slice(),
+        global_array.slice(),
+        i,
+        j
+      );
       /* animation of the bars end */
-      main[k] = auxiliary[i];
-      i++;
+      global_array[k] = auxiliary[i];
+      main[k] = auxiliary[i++];
+      /* animation of the bars start */
+      await animate_color_and_array(
+        default_colors.slice(),
+        global_array.slice(),
+        i - 1,
+        j
+      );
+      /* animation of the bars end */
     } else {
       /* animation of the bars start */
-      await animate_color_and_array(default_colors.slice(), main.slice(), k, i);
+      await animate_color_and_array(
+        default_colors.slice(),
+        global_array.slice(),
+        i,
+        j
+      );
       /* animation of the bars end */
-      main[k] = auxiliary[j];
-      j++;
+      global_array[k] = auxiliary[j];
+      main[k] = auxiliary[j++];
+      /* animation of the bars start */
+      await animate_color_and_array(
+        default_colors.slice(),
+        global_array.slice(),
+        i,
+        j - 1
+      );
+      /* animation of the bars end */
     }
   }
-  for (; i <= middle; i++, k++) main[k] = auxiliary[i];
-  for (; j <= end; j++, k++) main[k] = auxiliary[j];
+  for (; i <= middle; i++, k++) {
+    /* animation of the bars start */
+    await animate_color_and_array(
+      default_colors.slice(),
+      global_array.slice(),
+      i,
+      j
+    );
+    /* animation of the bars end */
+    global_array[k] = auxiliary[i];
+    main[k] = auxiliary[i];
+    /* animation of the bars start */
+    await animate_color_and_array(
+      default_colors.slice(),
+      global_array.slice(),
+      i,
+      j
+    );
+    /* animation of the bars end */
+  }
+  for (; j <= end; j++, k++) {
+    /* animation of the bars start */
+    await animate_color_and_array(
+      default_colors.slice(),
+      global_array.slice(),
+      i,
+      j
+    );
+    /* animation of the bars end */
+    global_array[k] = auxiliary[j];
+    main[k] = auxiliary[j];
+    /* animation of the bars start */
+    await animate_color_and_array(
+      default_colors.slice(),
+      global_array.slice(),
+      i,
+      j
+    );
+    /* animation of the bars end */
+  }
 };
 
 export default merge_sort;
