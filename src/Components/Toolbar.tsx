@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import store from "../store";
+
 import insertion_sort from "../SortingAlgorithms/InsertionSort";
 import bubble_sort from "../SortingAlgorithms/BubbleSort";
 import selection_sort from "../SortingAlgorithms/SelectionSort";
 import quick_sort from "../SortingAlgorithms/QuickSort";
+import heap_sort from "../SortingAlgorithms/HeapSort";
+import radix_sort from "../SortingAlgorithms/RadixSort";
 import { copy_array } from "../SharedFunctions";
 
 // Gets random interval in range [min, max)
@@ -61,6 +64,12 @@ const start_sorting = () => {
       break;
     case "quick_sort":
       quick_sort(array);
+      break;
+    case "heap_sort":
+      heap_sort(array);
+      break;
+    case "radix_sort":
+      radix_sort(array);
       break;
   }
 };
@@ -134,6 +143,8 @@ const Toolbar = () => {
         <option value="bubble_sort">Bubble Sort</option>
         <option value="selection_sort">Selection Sort</option>
         <option value="quick_sort">Quick Sort</option>
+        <option value="heap_sort">Heap Sort</option>
+        <option value="radix_sort">Radix Sort</option>
       </select>
       <DESCRIPTOR>Slow</DESCRIPTOR>
       <SPEED_BAR

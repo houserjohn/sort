@@ -6,18 +6,19 @@ import Bar from "./Bar";
 //import store from "../store";
 
 const VISUALIZER = styled.div`
-  background-color: black;
+  background-color: gray;
   margin: auto;
   height: 100%;
   width: 90%;
   text-align: center;
+  padding: 20px 0px 0px 0px;
 `;
 
 interface Visualizer_Props {}
 
 interface REDUX_STORE {
   array: number[];
-  colors: string[]
+  colors: string[];
 }
 
 const Visualizer = (props: Visualizer_Props) => {
@@ -26,7 +27,7 @@ const Visualizer = (props: Visualizer_Props) => {
   return (
     <VISUALIZER>
       {array.map((value: number, index: number) => (
-        <Bar key={index} value={value} color={colors[index]}/>
+        <Bar key={index} value={value} color={colors[index]} />
       ))}
     </VISUALIZER>
   );
