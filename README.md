@@ -1,4 +1,4 @@
-This project is live at https://github.com/houserjohn/sort
+This project is live at https://houserjohn.github.io/sort/
 
 ## My Notes
 
