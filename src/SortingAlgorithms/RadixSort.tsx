@@ -12,7 +12,7 @@ import {
 } from "../SharedFunctions";
 
 const radix_sort = async (array: number[]) => {
-  let default_colors: string[] = store.getState().colors.slice();
+  let default_colors: string[] = store.getState().colors.slice().fill("blue");
 
   if (array.length === 0) return array;
   let mxDigits = countDigits(Math.max(...array));
@@ -36,6 +36,8 @@ const radix_sort = async (array: number[]) => {
         i
       );
       /* animation of the bars end */
+      let active: boolean = store.getState().active;
+      if (!active) return;
       array[i] = sorted[i];
       /* animation of the bars start */
       await animate_color_and_array(
@@ -45,6 +47,8 @@ const radix_sort = async (array: number[]) => {
         i
       );
       /* animation of the bars end */
+      active = store.getState().active;
+      if (!active) return;
     }
   }
 

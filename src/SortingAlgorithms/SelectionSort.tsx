@@ -8,7 +8,7 @@ import {
 } from "../SharedFunctions";
 
 const selection_sort = async (array: number[]) => {
-  let default_colors: string[] = store.getState().colors.slice();
+  let default_colors: string[] = store.getState().colors.slice().fill("blue");
 
   for (let i = 0; i < array.length - 1; i++) {
     let min: number = i;
@@ -21,6 +21,9 @@ const selection_sort = async (array: number[]) => {
         j
       );
       /* animation of the bars end */
+      let active: boolean = store.getState().active;
+      if (!active) return;
+
       if (array[min] > array[j]) {
         min = j;
 
@@ -33,6 +36,8 @@ const selection_sort = async (array: number[]) => {
           j
         );
         /* animation of the bars end */
+        active = store.getState().active;
+        if (!active) return;
       }
     }
     /* animation of the bars start */
@@ -42,6 +47,8 @@ const selection_sort = async (array: number[]) => {
       min,
       i
     );
+    let active: boolean = store.getState().active;
+    if (!active) return;
     /* animation of the bars end */
     swap(array, min, i);
     /* animation of the bars start */
@@ -51,6 +58,8 @@ const selection_sort = async (array: number[]) => {
       min,
       i
     );
+    active = store.getState().active;
+    if (!active) return;
     /* animation of the bars end */
   }
 

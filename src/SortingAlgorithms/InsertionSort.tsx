@@ -11,7 +11,7 @@ import {
 
 // put in project something about using asynchronous calls/synchronize
 const insertion_sort = async (array: number[]) => {
-  let default_colors: string[] = store.getState().colors.slice();
+  let default_colors: string[] = store.getState().colors.slice().fill("blue");
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = i + 1; j > 0; j--) {
       /* animation of the bars start */
@@ -22,6 +22,8 @@ const insertion_sort = async (array: number[]) => {
         j
       );
       /* animation of the bars end */
+      let active: boolean = store.getState().active;
+      if (!active) return;
 
       if (array[j - 1] > array[j]) {
         swap(array, j - 1, j);
@@ -35,6 +37,8 @@ const insertion_sort = async (array: number[]) => {
           j
         );
         /* animation of the bars end */
+        active = store.getState().active;
+        if (!active) return;
       }
     }
   }

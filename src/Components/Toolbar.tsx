@@ -48,33 +48,56 @@ const update_sorting_algorithm = (e: any) => {
   });
 };
 
-const start_sorting = () => {
+const start_sorting = async () => {
   let array: number[] = store.getState().array.slice();
+  let active: boolean = store.getState().active;
+
+  if (active) return;
+
+  store.dispatch({
+    type: "sort/set_activity",
+    payload: true,
+  });
 
   let sorting_algorithm: string = store.getState().sorting_algorithm;
   switch (sorting_algorithm) {
     case "insertion_sort":
-      insertion_sort(array);
+      await insertion_sort(array);
       break;
     case "bubble_sort":
-      bubble_sort(array);
+      await bubble_sort(array);
       break;
     case "selection_sort":
-      selection_sort(array);
+      await selection_sort(array);
       break;
     case "quick_sort":
-      quick_sort(array);
+      await quick_sort(array);
       break;
     case "heap_sort":
-      heap_sort(array);
+      await heap_sort(array);
       break;
     case "radix_sort":
-      radix_sort(array);
+      await radix_sort(array);
       break;
     case "merge_sort":
-      merge_sort(array);
+      await merge_sort(array);
       break;
   }
+  store.dispatch({
+    type: "sort/set_activity",
+    payload: false,
+  });
+};
+
+const stop_sorting = () => {
+  let active: boolean = store.getState().active;
+
+  if (!active) return;
+
+  store.dispatch({
+    type: "sort/set_activity",
+    payload: false,
+  });
 };
 
 // Handles the Randomize button being clicked
@@ -89,6 +112,12 @@ const onClickGo = (e: any) => {
   e.preventDefault();
 
   start_sorting();
+};
+
+const onClickStop = (e: any) => {
+  e.preventDefault();
+
+  stop_sorting();
 };
 
 // Handles the speed range being adjusted
@@ -106,6 +135,7 @@ const onSpeedAdjust = (e: any) => {
 
 interface REDUX_STORE {
   array: number[];
+  active: boolean;
 }
 
 const TOOLBAR = styled.div`
@@ -119,26 +149,37 @@ const DESCRIPTOR = styled.p`
   padding: 0px;
 `;
 
+interface BUTTON_Props {
+  disabled: boolean;
+}
+const BUTTON = styled.button<BUTTON_Props>``;
+
 //direction: rtl;dd
 const SPEED_BAR = styled.input``;
 //<input type="range" min="10" max="2000" step="1" onMouseUp={(e: any) => onSpeedAdjust(e)} />
 
 const Toolbar = () => {
+  const active: boolean = useSelector((state: REDUX_STORE) => state.active);
   const array: number[] = useSelector((state: REDUX_STORE) => state.array);
 
   return (
     <TOOLBAR>
-      <button onClick={(e: any) => onClickRandomize(e, array.length)}>
+      <BUTTON
+        disabled={active}
+        onClick={(e: any) => onClickRandomize(e, array.length)}
+      >
         Randomize
-      </button>
+      </BUTTON>
       <DESCRIPTOR>Few</DESCRIPTOR>
       <input
         type="range"
+        disabled={active}
         defaultValue={array.length}
         onMouseUp={(e: any) => update_array_length(e)}
       />
       <DESCRIPTOR>Many</DESCRIPTOR>
       <select
+        disabled={active}
         defaultValue="insertion sort"
         onChange={(e: any) => update_sorting_algorithm(e)}
       >
@@ -160,7 +201,12 @@ const Toolbar = () => {
         onMouseUp={(e: any) => onSpeedAdjust(e)}
       />
       <DESCRIPTOR>Fast</DESCRIPTOR>
-      <button onClick={(e: any) => onClickGo(e)}>go</button>
+      <BUTTON disabled={!active} onClick={(e: any) => onClickStop(e)}>
+        Stop
+      </BUTTON>
+      <BUTTON disabled={active} onClick={(e: any) => onClickGo(e)}>
+        Go
+      </BUTTON>
     </TOOLBAR>
   );
 };

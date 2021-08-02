@@ -7,6 +7,7 @@ const reducer = (
     sorting_algorithm: string;
     colors: string[];
     speed: number;
+    active: boolean; // whether or not an algorithm is running
   },
   action: { type: string; payload: string | any }
 ) => {
@@ -51,10 +52,10 @@ const reducer = (
       };
     }
 
-    case "path/set_grid": {
+    case "sort/set_activity": {
       return {
         ...state,
-        grid: action.payload,
+        active: action.payload,
       };
     }
 
@@ -97,6 +98,7 @@ const store = createStore(
       "blue",
     ],
     speed: 1000,
+    active: false,
   },
   composeWithDevTools()
 );

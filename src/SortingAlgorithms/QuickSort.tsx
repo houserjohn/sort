@@ -14,10 +14,13 @@ import {
 let default_colors: string[];
 
 const quick_sort = async (array: number[]) => {
-  default_colors = store.getState().colors.slice();
+  default_colors = store.getState().colors.slice().fill("blue");
 
   await quickSortHelper(array, 0, array.length - 1);
 
+  // stop the animation from finishing if stop was pressed
+  let active: boolean = store.getState().active;
+  if (!active) return;
   /* animation finished start */
   animate_color_and_array_finished(default_colors.slice(), array.slice());
   /* animation finished end */
@@ -39,6 +42,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
       rght
     );
     /* animation of the bars end */
+    let active: boolean = store.getState().active;
+    if (!active) return;
     if (array[lft] > array[pivot] && array[rght] < array[pivot]) {
       swap(array, lft, rght);
       // only display animation if the bars were actually swapped
@@ -50,6 +55,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
         rght
       );
       /* animation of the bars end */
+      let active: boolean = store.getState().active;
+      if (!active) return;
     }
     if (array[lft] <= array[pivot]) lft += 1;
     if (array[rght] >= array[pivot]) rght -= 1;
@@ -62,6 +69,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
     rght
   );
   /* animation of the bars end */
+  let active: boolean = store.getState().active;
+  if (!active) return;
   swap(array, pivot, rght);
   /* animation of the bars start */
   await animate_color_and_array(
@@ -71,6 +80,8 @@ const quickSortHelper = async (array: number[], strt: number, end: number) => {
     rght
   );
   /* animation of the bars end */
+  active = store.getState().active;
+  if (!active) return;
   let lft_len = rght - strt;
   let rght_len = end - rght;
   if (lft_len > rght_len) {

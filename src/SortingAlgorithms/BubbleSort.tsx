@@ -10,7 +10,7 @@ import {
 } from "../SharedFunctions";
 
 const bubble_sort = async (array: number[]) => {
-  let default_colors: string[] = store.getState().colors.slice();
+  let default_colors: string[] = store.getState().colors.slice().fill("blue");
 
   for (let i: number = 0; i < array.length; i++) {
     let did_swap: boolean = false;
@@ -23,6 +23,9 @@ const bubble_sort = async (array: number[]) => {
         j
       );
       /* animation of the bars end */
+      let active: boolean = store.getState().active;
+      if (!active) return;
+
       if (array[j - 1] > array[j]) {
         swap(array, j - 1, j);
         did_swap = true;
@@ -36,6 +39,8 @@ const bubble_sort = async (array: number[]) => {
           j
         );
         /* animation of the bars end */
+        let active: boolean = store.getState().active;
+        if (!active) return;
       }
     }
     if (!did_swap) break;

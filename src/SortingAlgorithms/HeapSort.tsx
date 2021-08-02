@@ -12,7 +12,7 @@ let default_colors: string[];
 
 // O(nlogn) T | O(1) S
 const heap_sort = async (array: number[]) => {
-  default_colors = store.getState().colors.slice();
+  default_colors = store.getState().colors.slice().fill("blue");
 
   await buildHeap(array);
 
@@ -25,6 +25,8 @@ const heap_sort = async (array: number[]) => {
       divide
     );
     /* animation of the bars end */
+    let active: boolean = store.getState().active;
+    if (!active) return;
     swap(array, 0, divide);
     /* animation of the bars start */
     await animate_color_and_array(
@@ -33,6 +35,8 @@ const heap_sort = async (array: number[]) => {
       0,
       divide
     );
+    active = store.getState().active;
+    if (!active) return;
     /* animation of the bars end */
 
     await siftdown(array, divide, 0);
@@ -58,6 +62,8 @@ const siftdown = async (array: number[], length: number, index: number) => {
       bggr
     );
     /* animation of the bars end */
+    let active: boolean = store.getState().active;
+    if (!active) return;
     swap(array, index, bggr);
     /* animation of the bars start */
     await animate_color_and_array(
@@ -67,6 +73,8 @@ const siftdown = async (array: number[], length: number, index: number) => {
       bggr
     );
     /* animation of the bars end */
+    active = store.getState().active;
+    if (!active) return;
 
     index = bggr;
     left = 2 * index + 1;
