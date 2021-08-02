@@ -52,8 +52,6 @@ const start_sorting = async () => {
   let array: number[] = store.getState().array.slice();
   let active: boolean = store.getState().active;
 
-  if (active) return;
-
   store.dispatch({
     type: "sort/set_activity",
     payload: true,
@@ -91,8 +89,6 @@ const start_sorting = async () => {
 
 const stop_sorting = () => {
   let active: boolean = store.getState().active;
-
-  if (!active) return;
 
   store.dispatch({
     type: "sort/set_activity",
